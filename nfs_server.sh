@@ -8,6 +8,7 @@ sudo mkdir -p /mnt/espaco_compartilhadoX
 
 #remove a configuração base de pertencimento a usuário/grupo da pasta
 sudo chown nobody:nogroup /mnt/espaco_compartilhadoX
+sudo chmod 777 /mnt/espaco_compartilhadoX
 
 #adiciona as regras de utilização e a pasta a ser compartilhada
 echo "/mnt/espaco_compartilhadoX Y.Y.Y.Y/Z(rw,sync,no_subtree_check)" >> /etc/exports
