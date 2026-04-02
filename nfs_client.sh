@@ -15,3 +15,5 @@ echo "X.X.X.X:/mnt/Storage_C1 /mnt/espaco_compartilhado1 nfs defaults 0 0" >> /e
 echo "X.X.X.X:/mnt/Storage_C4 /mnt/espaco_compartilhado2 nfs defaults 0 0" >> /etc/fstab
 #substitua o "X.X.X.X" pelo endereço de IP da Máquina que está servindo como servidor NFS 
 #substitua o /mnt/espaco_compartilhadoX pelo caminho da pasta compartilhada no servidor NFS
+
+# se certifique de que o arquivo fstab está corretamente configurado e rode o mount -a
