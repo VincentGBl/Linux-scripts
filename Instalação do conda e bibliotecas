@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Configurações do ambiente central
+ANACONDA_INSTALLER="Anaconda3-2024.10-1-Linux-x86_64.sh"
+INSTALL_DIR="/opt/anaconda3"
+ENV_NAME="ambiente_aluno"
+# Lista de pacotes baseada na sua necessidade anterior [cite: 14]
+PACKAGES="python=3.12 numpy scipy pandas altair matplotlib statsmodels scikit-learn jupyter ipykernel r-base r-tidyverse"
+
+echo "=== Iniciando Instalação Centralizada para Alunos ==="
+
+# 1. Download do instalador (se não existir localmente)
+if [ ! -f "$ANACONDA_INSTALLER" ]; then
+    echo "Baixando instalador..."
+    wget https://repo.anaconda.com/archive/$ANACONDA_INSTALLER -O $ANACONDA_INSTALLER
+fi
+
+# 2. Instalação do Anaconda em /opt
+sudo mkdir -p "$INSTALL_DIR"
+sudo bash $ANACONDA_INSTALLER -b -u -p "$INSTALL_DIR"
+
+# 3. Criar o ambiente compartilhado
+echo "Criando o ambiente '$ENV_NAME'..."
+sudo "$INSTALL_DIR/bin/conda" create -n "$ENV_NAME" -c conda-forge $PACKAGES -y
+
+# 4. Registrar o Kernel globalmente para o Jupyter
+sudo "$INSTALL_DIR/envs/$ENV_NAME/bin/python" -m ipykernel install \
+    --name "$ENV_NAME" --display-name "Python (Ambiente Aluno)" --prefix="$INSTALL_DIR"
+
+# 5. CONFIGURAÇÃO DE SEGURANÇA (Crucial)
+echo "Configurando permissões de somente-leitura para alunos..."
+# Garante que o root seja dono de tudo
+sudo chown -R root:root "$INSTALL_DIR"
+# Permite que todos leiam e executem, mas apenas root escreva
+sudo chmod -R 755 "$INSTALL_DIR"
+
+echo "=== Configuração Concluída! ==="
